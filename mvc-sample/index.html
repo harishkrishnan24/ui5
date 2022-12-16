@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVC App</title>
+    <script
+      id="sap-ui-bootstrap"
+      src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+      data-sap-ui-libs="sap.m"
+      data-sap-ui-theme="sap_bluecrystal"
+      data-sap-ui-compatVersion="edge"
+    ></script>
+    <script>
+      var oData = {
+        CountSuppliers: "2",
+        Suppliers: [{
+          ID: "0",
+          Name: "Exotic Liquids",
+          Address: {
+            Street: "NE 228th",
+            City: "Sammamish",
+            State: "WA",
+            ZipCode: "98074",
+            Country: "USA"
+          }
+        },
+        {
+          ID: "1",
+          Name: "Tokyo Traders",
+          Address: {
+            Street: "NE 40th",
+            City: "Redmond",
+            State: "WA",
+            ZipCode: "98052",
+            Country: "USA"
+          }
+        }
+      ]
+      };
+
+      var oModel = sap.ui.model.json.JSONModel();
+      oModel.setData(oData);
+
+      sap.ui.getCore().setModel(oModel);
+
+      var aColumns = [
+        new sap.m.Column({
+          header: new sap.m.Text({
+            text: "ID"
+          })
+        }),
+        new sap.m.Column({
+          header: new sap.m.Text({
+            text: "Name"
+          })
+        })
+      ];
+
+      var oTemplate = new sap.m.ColumnListItem({
+        type: 'Nvaigation',
+        cells: [
+          new sap.m.ObjectIdentifier({
+            text: "{ID}"
+          }),
+          new sap.m.ObjectIdentifier({
+            text: "{Name}"
+          })
+        ]
+      });
+
+      var oTableHeader = new sap.m.Toolbar({
+        content: [
+          new sap.m.Title({
+            text: "Number of Suppliers: {/CountSuppliers}"
+          })
+        ]
+      });
+
+      var oTable = new sap.m.Table({
+        columns: aColumns,
+        headerToolbar: oTableHeader
+      });
+
+      oTable.bindItems("/Suppliers", oTemplate);
+    </script>
+  </head>
+  <body class="sapUiBody" role="application">
+    <div id="content"></div>
+  </body>
+</html>
