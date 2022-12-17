@@ -11,79 +11,53 @@
       data-sap-ui-libs="sap.m"
       data-sap-ui-theme="sap_bluecrystal"
       data-sap-ui-compatVersion="edge"
+      data-sap-ui-xx-bindingSyntax="complex"
+      data-sap-ui-resourceroots='{"sapui5.demo.mvcapp":"./webapp/"}'
     ></script>
     <script>
       var oData = {
         CountSuppliers: "2",
-        Suppliers: [{
-          ID: "0",
-          Name: "Exotic Liquids",
-          Address: {
-            Street: "NE 228th",
-            City: "Sammamish",
-            State: "WA",
-            ZipCode: "98074",
-            Country: "USA"
-          }
-        },
-        {
-          ID: "1",
-          Name: "Tokyo Traders",
-          Address: {
-            Street: "NE 40th",
-            City: "Redmond",
-            State: "WA",
-            ZipCode: "98052",
-            Country: "USA"
-          }
-        }
-      ]
+        Suppliers: [
+          {
+            ID: "0",
+            Name: "Exotic Liquids",
+            Address: {
+              Street: "NE 228th",
+              City: "Sammamish",
+              State: "WA",
+              ZipCode: "98074",
+              Country: "USA",
+            },
+          },
+          {
+            ID: "1",
+            Name: "Tokyo Traders",
+            Address: {
+              Street: "NE 40th",
+              City: "Redmond",
+              State: "WA",
+              ZipCode: "98052",
+              Country: "USA",
+            },
+          },
+        ],
       };
 
-      var oModel = sap.ui.model.json.JSONModel();
+      var oModel = new sap.ui.model.json.JSONModel();
       oModel.setData(oData);
 
       sap.ui.getCore().setModel(oModel);
 
-      var aColumns = [
-        new sap.m.Column({
-          header: new sap.m.Text({
-            text: "ID"
-          })
-        }),
-        new sap.m.Column({
-          header: new sap.m.Text({
-            text: "Name"
-          })
-        })
-      ];
-
-      var oTemplate = new sap.m.ColumnListItem({
-        type: 'Nvaigation',
-        cells: [
-          new sap.m.ObjectIdentifier({
-            text: "{ID}"
-          }),
-          new sap.m.ObjectIdentifier({
-            text: "{Name}"
-          })
-        ]
+      var oPageMasterView = sap.ui.view("masterPage", {
+        type: sap.ui.core.mvc.ViewType.JS,
+        viewName: "sapui5.demo.mvcapp.view.Master",
       });
 
-      var oTableHeader = new sap.m.Toolbar({
-        content: [
-          new sap.m.Title({
-            text: "Number of Suppliers: {/CountSuppliers}"
-          })
-        ]
+      var oApp = new sap.m.App({
+        initialPage: "masterPage",
       });
-
-      var oTable = new sap.m.Table({
-        columns: aColumns,
-        headerToolbar: oTableHeader
-      });
-
-      oTable.bindItems("/Suppliers", oTemplate);
+      oApp.addPage(oPageMasterView);
+      oApp.placeAt("content");
     </script>
   </head>
   <body class="sapUiBody" role="application">
