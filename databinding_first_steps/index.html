@@ -25,6 +25,10 @@
         sap.ui.getCore().setModel(oModel);
         var oText = new sap.m.Text({text: "{/Suppliers/0/Name}"});
         oText.placeAt("content");
+
+        var oInput = new sap.m.Input();
+        oInput.bindProperty("value", {path: "{/Suppliers/0/Name}"});
+        oInput.placeAt("content");
       });
     </script>
   </head>
