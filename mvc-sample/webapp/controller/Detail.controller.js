@@ -1,17 +1,24 @@
 sap.ui.define(
-  ["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History"],
-  function (Controller, History) {
-    "use strict";
+  [
+    'sap/ui/core/mvc/Controller',
+    'sap/ui/core/routing/History',
+    'sapui5/demo/mvcapp/model/formatter',
+    'sapui5/demo/mvcapp/model/types',
+  ],
+  function (Controller, History, formatter, types) {
+    'use strict';
 
-    return Controller.extend("sapui5.demo.mvcapp.controller.Detail", {
+    return Controller.extend('sapui5.demo.mvcapp.controller.Detail', {
+      formatter: formatter,
+      types: types,
       onInit: function () {
         this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         this._oRouter
-          .getRoute("detail")
+          .getRoute('detail')
           .attachPatternMatched(this._onDetailMatched, this);
       },
       _onDetailMatched: function (oEvent) {
-        var sObjectPath = "/Suppliers/" + oEvent.getParameter("arguments").ID;
+        var sObjectPath = '/Suppliers/' + oEvent.getParameter('arguments').ID;
         var oView = this.getView();
         oView.bindElement(sObjectPath);
       },
@@ -22,7 +29,7 @@ sap.ui.define(
         if (sPreviousHash !== undefined) {
           window.history.go(-1);
         } else {
-          this._oRouter.navTo("master");
+          this._oRouter.navTo('master');
         }
       },
     });

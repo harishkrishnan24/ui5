@@ -9,7 +9,8 @@
         "City": "Sammamish",
         "State": "WA",
         "ZipCode": "98074",
-        "Country": "USA"
+        "Country": "USA",
+        "PhoneNumber": "+1-123-123-1234"
       }
     },
     {
@@ -20,7 +21,8 @@
         "City": "Redmond",
         "State": "WA",
         "ZipCode": "98052",
-        "Country": "USA"
+        "Country": "USA",
+        "PhoneNumber": "+1-123-123-1235"
       }
     }
   ]

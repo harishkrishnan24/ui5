@@ -16,38 +16,80 @@
     <script>
       var oModel = new sap.ui.model.json.JSONModel();
 
-      oModel.loadData("service/data.json");
-      oModel.attachRequestCompleted(function(oEvent){
-        var sSupplierName = oModel.getProperty("/Suppliers/0/Name");
-        sSupplierName = sSupplierName + " Sammamish";
-        oModel.setProperty("/Suppliers/0/Name", sSupplierName);
+      oModel.loadData('service/data.json');
+      oModel.attachRequestCompleted(function (oEvent) {
+        var sSupplierName = oModel.getProperty('/Suppliers/0/Name');
+        sSupplierName = sSupplierName + ' Sammamish';
+        oModel.setProperty('/Suppliers/0/Name', sSupplierName);
 
         sap.ui.getCore().setModel(oModel);
-        var oText = new sap.m.Text({text: "{/Suppliers/0/Name}"});
-        oText.placeAt("content");
+        var oText = new sap.m.Text({ text: '{/Suppliers/0/Name}' });
+        oText.placeAt('content');
 
         var oInput = new sap.m.Input();
-        oInput.bindProperty("value", {path: "{/Suppliers/0/Name}"});
-        oInput.placeAt("content");
+        oInput.bindProperty('value', { path: '{/Suppliers/0/Name}' });
+        oInput.placeAt('content');
 
         var oZipInput = new sap.m.Input({
           value: {
-            path: "{/Suppliers/0/Address/ZipCode}",
-            type: new sap.ui.model.type.Integer({
-              minIntegerDigits: 5
-            },{
-              minimum: 1,
-              maximum: 99999999
-            })
-          }
+            path: '{/Suppliers/0/Address/ZipCode}',
+            type: new sap.ui.model.type.Integer(
+              {
+                minIntegerDigits: 5,
+              },
+              {
+                minimum: 1,
+                maximum: 99999999,
+              }
+            ),
+          },
         });
-        oZipInput.placeAt("content");
+        oZipInput.placeAt('content');
 
-        oZipInput.attachParseError(function(oControlEvent){
+        oZipInput.attachParseError(function (oControlEvent) {
           alert('Parse error occurred - this is no integer');
         });
-        oZipInput.attachValidationError(function(oControlEvent){
-          alert('Validation error occurred - some constraints were violated: ' + oControlEvent.getParameters().newValue + ' is not between minimum and maximum');
+        oZipInput.attachValidationError(function (oControlEvent) {
+          alert(
+            'Validation error occurred - some constraints were violated: ' +
+              oControlEvent.getParameters().newValue +
+              ' is not between minimum and maximum'
+          );
+        });
+
+        sap.ui.model.SimpleType.extend('sap.test.phoneNumber', {
+          formatValue: function (oValue) {
+            return oValue;
+          },
+          parseValue: function (oValue) {
+            return oValue;
+          },
+          validateValue: function (oValue) {
+            if (
+              !/\+*\D*[0-9]*\-([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D/.test(
+                oValue
+              )
+            ) {
+              throw new sap.ui.model.ValidateException(
+                'phone number must follow the pattern +1-234-567-8900!'
+              );
+            }
+          },
+        });
+
+        var oPhoneInput = new sap.m.Input({
+          value: {
+            path: '/Suppliers/0/Address/PhoneNumber',
+            type: new sap.test.phoneNumber(),
+          },
+        });
+        oPhoneInput.placeAt('content');
+
+        oPhoneInput.attachValidationError(function (oControlEvent) {
+          alert(
+            'Validation error occured - constraints were violated: ' +
+              oControlEvent.getParameter('message')
+          );
         });
       });
     </script>
