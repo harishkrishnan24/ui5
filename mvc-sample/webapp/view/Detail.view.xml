@@ -3,7 +3,7 @@
         <content>
             <ObjectHeader title="{path: 'Name', formatter: '.formatter.toUpperCase'}" number="ID: {ID}">
                 <attributes>
-                    <ObjectAttribute text="{Address/Country}" />
+                    <ObjectAttribute text="{Address/City}, {Address/Country}" />
                     <ObjectAttribute text="{path: 'Address/PhoneNumber', type: '.types.PhoneNumber'}" />
                 </attributes>
             </ObjectHeader>
